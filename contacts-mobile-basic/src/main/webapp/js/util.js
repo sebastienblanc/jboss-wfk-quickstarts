@@ -18,7 +18,8 @@
 APPMODULE.namespace('APPMODULE.util.getCurrentDate');
 APPMODULE.namespace('APPMODULE.util.getCurrentTime');
 APPMODULE.namespace('APPMODULE.util.getCurrentDateTime');
-APPMODULE.namespace('APPMODULE.util.convertUTCToDate');
+APPMODULE.namespace('APPMODULE.util.convertMillisToDate');
+APPMODULE.namespace('APPMODULE.util.convertDateStringToOffsetUTC');
 
 /**
  * Abstract away generic functions that are used by all.
@@ -60,18 +61,49 @@ APPMODULE.util.getCurrentDateTime = function() {
 /**
  * The database stores the Date in Milliseconds from the epoch.  We need to convert that into a readable date.
  */
-APPMODULE.util.convertUTCToDate = function(milliseconds) {
-    console.log(APPMODULE.util.getCurrentTime() + " [js/util.js] (convertUTCToDate) - milliseconds passed in = " + milliseconds);
+APPMODULE.util.convertMillisToDate = function(milliseconds) {
+    console.log(APPMODULE.util.getCurrentTime() + " [js/util.js] (convertMillisToDate) - milliseconds passed in = " + milliseconds);
     var d = new Date(milliseconds);
-    console.log(APPMODULE.util.getCurrentTime() + " [js/util.js] (convertUTCToDate) - date after converting milliseconds passed in = " + d);
+    console.log(APPMODULE.util.getCurrentTime() + " [js/util.js] (convertMillisToDate) - date after converting milliseconds passed in = " + d);
     
+    // Must add 1 due to zero based array of months.
     var month = d.getMonth()+1;
     var day = d.getDate();
 
+    // Create a String of the date but add in zeros where needed so that month and day take up 2 fields.
     var output = d.getFullYear() + '-' +
         (month<10 ? '0' : '') + month + '-' +
         (day<10 ? '0' : '') + day;
     
     return output;
+};
+
+/**
+ * Convert a local date String to a Date type and then apply the timezone offset to it so that it keeps the right time.
+ * Without this the time stored would be as if it were recorded in UTC.
+ */
+APPMODULE.util.convertDateStringToOffsetUTC = function(utcDate) {
+    console.log(APPMODULE.util.getCurrentTime() + " [js/util.js] (convertDateStringToOffsetUTC) - date String passed in = " + utcDate);
+    
+    // The date passed in is a String, this makes it a Date object/type.
+    var d = new Date(utcDate);
+    console.log(APPMODULE.util.getCurrentTime() + " [js/util.js] (convertDateStringToOffsetUTC) - date after converting " +
+            "String to the Date type (displayed in local time) = " + d);
+    
+    // Get the Timezone Offset, in minutes, from UTC to local. This will either be a negative or positive number depending 
+    // on your timezone.
+    var offsetInMin = d.getTimezoneOffset();
+    console.log(APPMODULE.util.getCurrentTime() + " [js/util.js] (convertDateStringToOffsetUTC) - offset in Minutes = " + offsetInMin);
+    
+    // We need the Offset in Milliseconds if we are going to add it more Milliseconds.
+    var offsetInMillis = offsetInMin * 60 * 1000;
+    console.log(APPMODULE.util.getCurrentTime() + " [js/util.js] (convertDateStringToOffsetUTC) - offset in Milliseconds = " + offsetInMillis);
+    
+    // Add the Offset to the UTC time so that we can store the actual time that was intended to be recorded.
+    var offsetUTCDateTime = new Date(d.getTime() + offsetInMillis);
+    console.log(APPMODULE.util.getCurrentTime() + " [js/util.js] (convertDateStringToOffsetUTC) - date after applying timezone " +
+            "offset to UTC Date (displayed in local time) = " + offsetUTCDateTime);
+    
+    return offsetUTCDateTime;
 };
 

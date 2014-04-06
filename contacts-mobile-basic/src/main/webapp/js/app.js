@@ -113,7 +113,7 @@ $( document ).on( "pageinit", function(mainEvent) {
                     "<div class='detialedList'>" +
                         "<p><strong>" + contact.email.toString() + "</strong></p>" +
                         "<p>" + contact.phoneNumber.toString() + "</p>" +
-                        "<p>" + APPMODULE.util.convertUTCToDate(contact.birthDate) + "</p>" +
+                        "<p>" + APPMODULE.util.convertMillisToDate(contact.birthDate) + "</p>" +
                     "</div>" +
                  "</li>");
         });
@@ -212,7 +212,7 @@ $( document ).on( "pageinit", function(mainEvent) {
         $('#contacts-edit-input-lastName').val(contact.lastName);
         $('#contacts-edit-input-tel').val(contact.phoneNumber);
         $('#contacts-edit-input-email').val(contact.email);
-        $('#contacts-edit-input-date').val(APPMODULE.util.convertUTCToDate(contact.birthDate));
+        $('#contacts-edit-input-date').val(APPMODULE.util.convertMillisToDate(contact.birthDate));
         $('#contacts-edit-input-id').val(contact.id);
         
         console.log(getCurrentTime() + " [js/app.js] (buildContactDetail) - end");
