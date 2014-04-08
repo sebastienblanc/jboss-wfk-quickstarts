@@ -243,7 +243,98 @@ $(document).ready(function() {
                     min: "Nobody is that old. Unless they are a vampire."
                 }
             }
-        }); 
+        });
+
+        /**
+         * Set up the validator for the 'signup' form.
+         * NOTE: I tried setting it up to use the form class but then it only applied the validation to the first form.
+         *       It appears that the plugin only works when it is givin only 1 form at a time.
+         */
+        APPMODULE.validation.signUpFormValidator = $('#signup-form').validate({
+            rules: {
+                firstName: {
+                    required: true,
+                    // This is the custom validator created above to make sure that the String only has letter, -, or '.
+                    personName: true,
+                    maxlength: 25
+                },
+                lastName: {
+                    required: true,
+                    // This is the custom validator created above to make sure that the String only has letter, -, or '.
+                    personName: true,
+                    maxlength: 25
+                },
+                userName: {
+                    required: true,
+                },
+                password: {
+                    required: true
+                }
+            },
+            messages: {
+                firstName: {
+                    required: "Please specify a first name."
+                },
+                lastName: {
+                    required: "Please specify a last name."
+                },
+                email: {
+                    required: "Please enter an e-mail.",
+                    email: "The email address must be in the format of name@company.domain."
+                },
+                password: {
+                    required: "Please enter a password."
+                }
+            }
+        });
+
+        /**
+         * Set up the validator for the 'signin' form.
+         * NOTE: I tried setting it up to use the form class but then it only applied the validation to the first form.
+         *       It appears that the plugin only works when it is givin only 1 form at a time.
+         */
+        APPMODULE.validation.signInFormValidator = $('#signin-form').validate({
+            rules: {
+                loginName: {
+                    required: true
+                },
+                password: {
+                    required: true
+                }
+            },
+            messages: {
+                loginName: {
+                    required: "Please enter an user name."
+                },
+                password: {
+                    required: "Please enter a password."
+                }
+            }
+        });
+
+        /**
+         * Set up the validator for the 'signin' form.
+         * NOTE: I tried setting it up to use the form class but then it only applied the validation to the first form.
+         *       It appears that the plugin only works when it is givin only 1 form at a time.
+         */
+        APPMODULE.validation.assignRoleFormValidator = $('#role-assignment-form').validate({
+            rules: {
+                userName: {
+                    required: true
+                },
+                roleName: {
+                    required: true
+                }
+            },
+            messages: {
+                userName: {
+                    required: "Please select an user."
+                },
+                roleName: {
+                    required: "Please select a role.."
+                }
+            }
+        });
     };
     
     /**

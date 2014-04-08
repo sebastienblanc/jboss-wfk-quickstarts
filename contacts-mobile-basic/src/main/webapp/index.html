@@ -37,6 +37,7 @@
     <script src="js/util.js"></script>
     <script src="js/formSetup.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/security.js"></script>
     <script src="js/validation.js"></script>
     <script src="js/submissions.js"></script>
     
@@ -59,20 +60,107 @@
     
 </head>
 <body>
-    <!-- This is the main list.  It is just names. -->
-    <!-- It is worth noting that in a jQuery Mobile app, only the first "page" is loaded & displayed. 
-          The following/other pages will be partially loaded.  Just their "divs." -->
+    <!-- This is for the signin page. -->
+    <div data-role="page" id="signin-page" data-theme="b">
+        <div data-role="header" data-position="fixed" data-theme="b">
+            <h1>Welcome to JBoss Contacts Mobile Application</h1>
+        </div>
+        <div data-role="content" data-theme="b">
+            <form name="signin-form" id="signin-form" class="contact_info" method="post" data-ajax="false">
+                <div>
+                    <label for="signin-form-input-email">User Name:</label>
+                    <input name="loginName" id="signin-form-input-email" class="name" data-clear-btn="true" value="" placeholder="Enter your user name." type="text"/>
+                </div>
+                <div>
+                    <label for="signin-form-input-password">Password:</label>
+                    <input name="password" id="signin-form-input-password" class="name" data-clear-btn="true" value="" placeholder="Enter your password." type="password"/>
+                </div>
+                <input id="submit-signin-btn" data-inline="true" type="submit" value="Sign In" />
+                <input id="submit-go-signup-btn" data-inline="true" type="button" value="Sign Up" onclick="$.mobile.changePage('#signup-page');"/>
+            </form>
+        </div>
+    </div>
+
+    <!-- This is for the signup page. -->
+    <div data-role="page" id="signup-page" data-theme="b">
+        <div data-role="header" data-position="fixed" data-theme="b">
+            <h1>Sign Up</h1>
+        </div>
+        <div data-role="content" data-theme="b">
+            <form name="signup-form" id="signup-form" class="contact_info" method="post" data-ajax="false">
+                <div>
+                    <label for="signup-form-input-firstName">First Name:</label>
+                    <input name="firstName" id="signup-form-input-firstName" class="name" data-clear-btn="true" value="" placeholder="Enter a first name." type="text"/>
+                </div>
+                <div>
+                    <label for="signup-form-input-lastName">Last Name:</label>
+                    <input name="lastName" id="signup-form-input-lastName" class="name" data-clear-btn="true" value="" placeholder="Enter a last name." type="text"/>
+                </div>
+                <div>
+                    <label for="signup-form-input-username">User Name:</label>
+                    <input name="userName" id="signup-form-input-username" class="name" data-clear-btn="true" value="" placeholder="Enter Your User Name" type="text"/>
+                </div>
+                <div>
+                    <label for="signup-form-input-password">Password:</label>
+                    <input name="password" id="signup-form-input-password" class="name" data-clear-btn="true" value="" placeholder="Enter Your Password" type="password"/>
+                </div>
+                <input id="submit-signup-btn" data-inline="true" type="submit" value="Sign Up" />
+            </form>
+        </div>
+    </div>
+
+    <!-- This is for the role assignment page. -->
+    <div data-role="page" id="role-assignment-page" data-theme="b">
+        <div data-role="panel" id="contacts-list-page-menu-panel">
+            <ul data-role="listview" id="contacts-list-page-menu-panel-listview">
+                <li><a href="#contacts-add-page">Add Contact</a></li>
+                <li><a href="#contacts-list-page">List view</a></li>
+                <li><a href="#about-page">About</a></li>
+                <li><a href="#logout-page">Logout</a></li>
+            </ul>
+        </div>
+        <div data-role="header" data-position="fixed" data-theme="b">
+            <a href="#contacts-list-page-menu-panel" id="contacts-list-page-menu-button" data-role="button" data-icon="bars" data-iconpos="notext" data-mini="true" data-inline="true">Menu</a>
+            <h1>Role Assignment</h1>
+            <a href="#contacts-detail-list-page" id="contacts-detail-list-page-button" data-role="button" data-icon="arrow-d" data-iconpos="right" data-mini="true" data-inline="true">Details</a>
+        </div>
+        <div data-role="content" data-theme="b">
+            <form name="role-assignment-form" id="role-assignment-form" class="contact_info" method="post" data-ajax="false">
+                <label for="role-assignment-users-select">Select an User:</label>
+                <select id="role-assignment-users-select" name="userName" data-native-menu="false">
+                    <option>No Selection</option>
+                </select>
+                <label for="role-assignment-role-select">Assign a Role:</label>
+                <select id="role-assignment-role-select" name="roleName" data-native-menu="false">
+                    <option>No Selection</option>
+                </select>
+                <input id="submit-role-assignment-btn" data-inline="true" type="submit" value="Assign" />
+            </form>
+        </div>
+    </div>
+
+    <!-- This is for the signup page. -->
+    <div data-role="page" id="logout-page" data-theme="b">
+        <div data-role="header" data-position="fixed" data-theme="b">
+            <h1>See you soon !</h1>
+        </div>
+        <div data-role="content" data-theme="b">
+        </div>
+    </div>
+
     <div data-role="page" id="contacts-list-page" data-theme="b" data-url="/jboss-contacts-mobile-basic/">
         <div data-role="panel" id="contacts-list-page-menu-panel">
             <ul data-role="listview" id="contacts-list-page-menu-panel-listview">
                 <li><a href="#contacts-add-page">Add Contact</a></li>
                 <li><a href="#contacts-detail-list-page">Detailed List</a></li>
                 <li><a href="#about-page">About</a></li>
+                <li id="role-assignment-menu"><a href="#role-assignment-page">Role Assignment</a></li>
+                <li><a href="#logout-page">Logout</a></li>
             </ul>
         </div>
         <div data-role="header" data-position="fixed" data-theme="b">
             <a href="#contacts-list-page-menu-panel" id="contacts-list-page-menu-button" data-role="button" data-icon="bars" data-iconpos="notext" data-mini="true" data-inline="true">Menu</a>
-            <h1>Contacts</h1>
+            <h1>Welcome <span id="user-name-page-message"></span>.</h1>
             <a href="#contacts-detail-list-page" id="contacts-detail-list-page-button" data-role="button" data-icon="arrow-d" data-iconpos="right" data-mini="true" data-inline="true">Details</a>
         </div>
         <div data-role="content">
@@ -92,6 +180,7 @@
                 <li><a href="#contacts-add-page">Add Contact</a></li>
                 <li><a href="#contacts-list-page">List view</a></li>
                 <li><a href="#about-page">About</a></li>
+                <li><a href="#logout-page">Logout</a></li>
             </ul>
         </div>
         <div data-role="header" data-position="fixed" data-theme="b">
@@ -117,6 +206,7 @@
                 <li><a href="#contacts-add-page">Add Contact</a></li>
                 <li><a href="#contacts-list-page">List view</a></li>
                 <li><a href="#about-page">About</a></li>
+                <li><a href="#logout-page">Logout</a></li>
             </ul>
         </div>
         <div data-role="header" data-position="fixed" data-theme="b">
@@ -140,6 +230,7 @@
 <!--                 <li><a href="#contacts-add-page">Add Contact</a></li> -->
                 <li><a href="#contacts-list-page">List view</a></li>
                 <li><a href="#about-page">About</a></li>
+                <li><a href="#logout-page">Logout</a></li>
             </ul>
         </div>
         <div data-role="header" data-position="fixed" data-theme="b">
@@ -202,6 +293,7 @@
                 <li><a href="#contacts-add-page">Add Contact</a></li>
                 <li><a href="#contacts-list-page">List view</a></li>
                 <li><a href="#about-page">About</a></li>
+                <li><a href="#logout-page">Logout</a></li>
             </ul>
         </div>
         <div data-role="header" data-position="fixed" data-theme="b">
@@ -277,6 +369,37 @@
             <h3>Are you sure you want to Delete?</h3>
             <a href="#contacts-list-page" id="confirm-delete-button" data-role="button" data-inline="true">Yes</a>
             <a href="#contacts-list-page" id="cancel-delete-button" data-role="button" data-inline="true">No</a>
+        </div>
+    </div>
+
+    <!-- An access denied dialog. -->
+    <div data-role="dialog" id="access-denied-dialog">
+        <div data-role="header">
+            <h1>Access Denied !</h1>
+        </div>
+        <div data-role="content">
+            <h3>You don't have permission to perform the operation.</h3>
+        </div>
+    </div>
+
+    <!-- An invalid credentials denied dialog. -->
+    <div data-role="dialog" id="invalid-credentials-dialog">
+        <div data-role="header">
+            <h1>Invalid Credentials !</h1>
+        </div>
+        <div data-role="content">
+            <h3>Please, try again.</h3>
+            <a href="#signin-page" id="signin-page" data-role="button" data-inline="true">Ok</a>
+        </div>
+    </div>
+
+    <!-- An role assignment dialog. -->
+    <div data-role="dialog" id="role-assignment-dialog">
+        <div data-role="header">
+            <h1>Role Assignment</h1>
+        </div>
+        <div data-role="content">
+            <h3>Role successfuly assigned to user.</h3>
         </div>
     </div>
 </body>

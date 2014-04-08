@@ -59,6 +59,16 @@ $( document ).on( "pageinit", function(mainEvent) {
             
             // Fetches the initial Contact data.
             APPMODULE.app.getContacts();
+
+            // here we hide the 'Role Assignment' menu item for non admin users.
+            if (currentUser) {
+                $('#user-name-page-message').text(currentUser.account.loginName);
+                if (!currentUser.admin) {
+                    $("#role-assignment-menu").addClass('ui-screen-hidden');
+                } else {
+                    $("#role-assignment-menu").removeClass('ui-screen-hidden');
+                }
+            }
             
             e.handled = true;
             console.log(getCurrentTime() + " [js/app.js] (#contacts-list-page -> pagebeforeshow) - end");

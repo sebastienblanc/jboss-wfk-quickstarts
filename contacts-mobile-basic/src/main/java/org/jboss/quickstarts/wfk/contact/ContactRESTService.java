@@ -16,6 +16,10 @@
  */
 package org.jboss.quickstarts.wfk.contact;
 
+import org.jboss.quickstarts.wfk.contact.security.annotation.AllowedRoles;
+import org.jboss.quickstarts.wfk.contact.security.annotation.UserLoggedIn;
+import org.jboss.quickstarts.wfk.contact.security.model.ApplicationRole;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +78,7 @@ public class ContactRESTService {
      * @return List of Contacts
      */
     @GET
+    @UserLoggedIn
     public Response retrieveAllContacts() {
         List<Contact> contacts = service.findAllOrderedByName();
         if (contacts.isEmpty()) {
@@ -89,6 +94,7 @@ public class ContactRESTService {
      */
     @GET
     @Path("/{email}")
+    @UserLoggedIn
     public Response retrieveContactsByEmail(@PathParam("email") String email) {
         Contact contact = service.findByEmail(email);
         if (contact == null) {
@@ -105,6 +111,7 @@ public class ContactRESTService {
      */
     @GET
     @Path("/{id:[0-9][0-9]*}")
+    @UserLoggedIn
     public Response retrieveContactById(@PathParam("id") long id) {
         Contact contact = service.findById(id);
         if (contact == null) {
@@ -125,6 +132,7 @@ public class ContactRESTService {
      */
     @SuppressWarnings("unused")
     @POST
+    @AllowedRoles(ApplicationRole.MAINTAINER)
     public Response createContact(Contact contact) {
         log.info("createContact started. Contact = " + contact.getFirstName() + " " + contact.getLastName() + " " + contact.getEmail() + " " + contact.getPhoneNumber() + " "
             + contact.getBirthDate() + " " + contact.getId());
@@ -173,6 +181,7 @@ public class ContactRESTService {
      */
     @SuppressWarnings("unused")
     @PUT
+    @AllowedRoles(ApplicationRole.MAINTAINER)
     public Response updateContact(Contact contact) {
         log.info("updateContact started. Contact = " + contact.getFirstName() + " " + contact.getLastName() + " " + contact.getEmail() + " " + contact.getPhoneNumber() + " "
             + contact.getBirthDate() + " " + contact.getId());
@@ -223,6 +232,7 @@ public class ContactRESTService {
      * @return Response
      */
     @DELETE
+    @AllowedRoles(ApplicationRole.ADMIN)
     public Response deleteContact(Contact contact) {
         log.info("deleteContact started. Contact = " + contact.getFirstName() + " " + contact.getLastName() + " " + contact.getEmail() + " " + contact.getPhoneNumber() + " "
             + contact.getBirthDate() + " " + contact.getId());
