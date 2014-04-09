@@ -85,8 +85,7 @@ public class AuthorizationManager {
             return true;
         }
 
-        Object targetBean = invocationContext.getTarget();
-        AllowedRoles declareRoles = targetBean.getClass().getAnnotation(AllowedRoles.class);
+        AllowedRoles declareRoles = invocationContext.getTarget().getClass().getAnnotation(AllowedRoles.class);
 
         if (declareRoles == null) {
             declareRoles = invocationContext.getMethod().getAnnotation(AllowedRoles.class);
