@@ -214,6 +214,19 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- The Java UPS Sender Client to send UnifiedPush messages -->
+        <dependency>
+            <groupId>org.jboss.aerogear</groupId>
+            <artifactId>unifiedpush-java-client</artifactId>
+            <version>0.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jackson-provider</artifactId>
+            <version>2.3.2.Final</version>
+        </dependency>
+
         <!-- Now we declare any tools needed -->
 
         <!-- Annotation processor to generate the JPA 2.0 metamodel classes for typesafe criteria queries -->

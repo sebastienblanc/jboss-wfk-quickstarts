@@ -71,6 +71,9 @@ public class ContactRESTService {
     
     @Inject
     private ContactService service;
+
+    @Inject
+    private PushService pushService;
     
     /**
      * Search for and return all the Contacts.  They are sorted alphabetically by name.
@@ -258,6 +261,14 @@ public class ContactRESTService {
         }
 
         return builder.build();
+    }
+
+    @POST
+    @UserLoggedIn
+    @Path("/sendMessage")
+    public Response sendPing(PushNotification pushNotification) {
+        pushService.sendMessage(pushNotification);
+        return Response.noContent().build();
     }
     
     /**
