@@ -38,6 +38,21 @@
         </init-param>
     </filter>
 
+    <filter>
+        <filter-name>CORS Filter</filter-name>
+        <filter-class>org.ebaysf.web.cors.CORSFilter</filter-class>
+        <init-param>
+            <description>A comma separated list of HTTP verbs, using which a CORS request can be made.</description>
+            <param-name>cors.allowed.headers</param-name>
+            <param-value>Origin,Accept,X-Requested-With,Content-Type,authorization</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>CORS Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <filter-mapping>
         <filter-name>PicketLink Authentication Filter</filter-name>
         <url-pattern>/rest/security/user/info</url-pattern>
