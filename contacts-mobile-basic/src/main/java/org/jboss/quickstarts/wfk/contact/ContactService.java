@@ -112,7 +112,7 @@ public class ContactService {
      * @return Contact
      * @throws ConstraintViolationException, ValidationException, Exception
      */
-    Contact create(Contact contact) throws ConstraintViolationException, ValidationException, Exception {
+    public Contact create(Contact contact) throws ConstraintViolationException, ValidationException, Exception {
         log.info("ContactService.create() - Creating " + contact.getFirstName() + " " + contact.getLastName());
         
         // Check to make sure the data fits with the parameters in the Contact model and passes validation.
