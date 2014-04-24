@@ -16,6 +16,8 @@
  */
 package org.jboss.quickstarts.wfk.contact.security.rest;
 
+import org.jboss.quickstarts.wfk.contact.Contact;
+import org.jboss.quickstarts.wfk.contact.ContactService;
 import org.jboss.quickstarts.wfk.contact.security.model.UserRegistration;
 import org.picketlink.idm.IdentityManager;
 import org.picketlink.idm.credential.Password;
@@ -32,6 +34,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * <p>A RESTful endpoint to create new users.</p>
@@ -41,15 +44,20 @@ import java.util.Map;
 @Stateless
 @Path("/security/registration")
 public class UserRegistrationService {
+    @Inject
+    private Logger log;
 
     @Inject
     private IdentityManager identityManager;
+
+    @Inject
+    private ContactService contactService;
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(UserRegistration userRegistration) {
-        User newUser = new User(userRegistration.getUserName());
+        User newUser = new User(userRegistration.getEmail());
 
         newUser.setFirstName(userRegistration.getFirstName());
         newUser.setLastName(userRegistration.getLastName());
@@ -65,7 +73,30 @@ public class UserRegistrationService {
 
             this.identityManager.updateCredential(newUser, password);
 
-            return Response.ok().entity(newUser).build();
+            Response.ResponseBuilder builder;
+            try {
+                Contact contact = copyToContact(userRegistration);
+
+                contactService.create(contact);
+                builder = Response.ok().entity(newUser);
+            } catch (Exception e) {
+                log.info("Exception - " + e.toString());
+                Map<String, String> responseObj = new HashMap<String, String>();
+                responseObj.put("error", e.getMessage());
+                builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+            }
+
+            return builder.build();
         }
+    }
+
+    private Contact copyToContact(UserRegistration userRegistration) {
+        Contact contact = new Contact();
+        contact.setFirstName(userRegistration.getFirstName());
+        contact.setLastName(userRegistration.getLastName());
+        contact.setBirthDate(userRegistration.getBirthDate());
+        contact.setEmail(userRegistration.getEmail());
+        contact.setPhoneNumber(userRegistration.getPhoneNumber());
+        return contact;
     }
 }

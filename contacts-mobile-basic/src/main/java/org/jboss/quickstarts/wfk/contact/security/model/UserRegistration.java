@@ -21,6 +21,8 @@
  */
 package org.jboss.quickstarts.wfk.contact.security.model;
 
+import org.jboss.quickstarts.wfk.contact.Contact;
+
 /**
  * <p>A simple class presenting the information sent during a registration.</p>
  *
@@ -28,36 +30,9 @@ package org.jboss.quickstarts.wfk.contact.security.model;
  *
  * @author Pedro Igor
  */
-public class UserRegistration {
+public class UserRegistration extends Contact {
 
-    private String firstName;
-    private String lastName;
-    private String userName;
     private String password;
-
-    public String getFirstName() {
-        return this.firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return this.lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getUserName() {
-        return this.userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
 
     public String getPassword() {
         return this.password;
